@@ -70,6 +70,18 @@ public class MainWindow extends JFrame {
         genButtons();
 
         setVisible(true);
+
+        new Thread(() -> {
+            while(true){
+                map.setIcon(new ImageIcon(Screen.getMapImage(Principal.position)));
+                repaint();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private void genLabels(int xI, int yI){
