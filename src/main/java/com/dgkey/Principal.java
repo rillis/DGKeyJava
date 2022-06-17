@@ -5,6 +5,7 @@ import com.dgkey.gui.MainWindow;
 import com.dgkey.gui.Screen;
 import com.dgkey.logic.Key;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
