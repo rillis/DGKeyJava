@@ -17,6 +17,10 @@ public class MainWindow extends JFrame {
     JLabel map;
     JLabel[][] labelsMap = new JLabel[8][8];
     public MainWindow(BufferedImage mapImage){
+        setAlwaysOnTop(true);
+
+        setTitle("DGKeyJava by Rillis");
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
@@ -40,13 +44,28 @@ public class MainWindow extends JFrame {
 
         JButton reloadMap = new JButton("Reload");
         reloadMap.setBounds(10,10,100,20);
-        reloadMap.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                map.setIcon(new ImageIcon(Screen.getMapImage(Principal.position)));
-                repaint();
-            }
-        } );
+        reloadMap.addActionListener(e -> {
+            map.setIcon(new ImageIcon(Screen.getMapImage(Principal.position)));
+            repaint();
+        });
         contentPane.add(reloadMap);
+
+        JButton clearAll = new JButton("Clear");
+        clearAll.setBounds(130,10,100,20);
+        clearAll.addActionListener(e -> {
+            map.setIcon(new ImageIcon(Screen.getMapImage(Principal.position)));
+            clearLabels();
+            repaint();
+        });
+        contentPane.add(clearAll);
+
+        JToggleButton topToggle = new JToggleButton("Always on Top");
+        topToggle.setBounds(250,10,150,20);
+        topToggle.setSelected(true);
+        topToggle.addActionListener(e -> {
+            setAlwaysOnTop(topToggle.isSelected());
+        });
+        contentPane.add(topToggle);
 
         genButtons();
 
@@ -87,27 +106,29 @@ public class MainWindow extends JFrame {
         }
     }
 
-    private JButton[][] buttons = new JButton[8][8];
+    private JLabel[][] buttons = new JLabel[8][8];
 
     private void genButtons(){
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                buttons[i][j] = new JButton();
+                buttons[i][j] = new JLabel();
                 buttons[i][j].setBounds(310+(i*32),30+(j*32), 27, 27);
                 buttons[i][j].setIcon(new ImageIcon(Key.keys[i][j]));
                 int finalI = i;
                 int finalJ = j;
-                buttons[i][j].addActionListener(e -> {
-                    if(buttons[finalI][finalJ].isSelected()){
-                        Key.selectedButton = null;
-                        buttons[finalI][finalJ].setSelected(false);
-                    }else{
-                        clearButtonSelection();
-                        Key.selectedButton = new int[]{finalI, finalJ};
-                        buttons[finalI][finalJ].setSelected(true);
-                    }
-                    repaint();
-                });
+                buttons[i][j].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+                        if (buttons[finalI][finalJ].getBorder() != null) {
+                            Key.selectedButton = null;
+                            buttons[finalI][finalJ].setBorder(null);
+                        } else {
+                            clearButtonSelection();
+                            Key.selectedButton = new int[]{finalI, finalJ};
+                            buttons[finalI][finalJ].setBorder(BorderFactory.createLineBorder(Color.GREEN));
+                        }
+                        repaint();
+                    }});
                 contentPane.add(buttons[i][j]);
             }
         }
@@ -116,7 +137,16 @@ public class MainWindow extends JFrame {
     private void clearButtonSelection(){
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                buttons[i][j].setSelected(false);
+                buttons[i][j].setBorder(null);
+            }
+        }
+        repaint();
+    }
+
+    private void clearLabels(){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                labelsMap[i][j].setIcon(null);
             }
         }
         repaint();
