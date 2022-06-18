@@ -1,21 +1,18 @@
 package com.dgkey;
 
-import com.dgkey.gui.Loading;
-import com.dgkey.gui.MainWindow;
-import com.dgkey.gui.Screen;
-import com.dgkey.logic.Key;
+import com.dgkey.db.*;
+import com.dgkey.gui.*;
+import com.dgkey.logic.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.LookupOp;
-import java.net.MalformedURLException;
-import java.util.Arrays;
+import java.awt.image.*;
 
 public class Principal {
     public static int[] position;
     public static MainWindow mainWindow = null;
+    public static Database database = null;
+
 
     public static void main(String[] args) throws Exception {
         debugLaF();
@@ -25,6 +22,20 @@ public class Principal {
             Thread.sleep(1);
         }
         Loading.setCancelMessage("Abortar");
+        Loading.setMessage("Conectando...");
+        Loading.setAlwaysTop(false);
+
+        String ip = JOptionPane.showInputDialog("Digite o ip");
+
+        try{
+            database = new Database(ip, "3306", "runescape");
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Erro ao conectar");
+            e.printStackTrace();
+            System.exit(0);
+        }
+
+        Loading.setAlwaysTop(true);
         Loading.setMessage("Procurando mapa...");
 
         Screen.init();
@@ -53,10 +64,8 @@ public class Principal {
     public static void debugLaF(){
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-        } catch (InstantiationException ex) {
-        } catch (IllegalAccessException ex) {
-        } catch (UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException ex) {
+            ex.printStackTrace();
         }
     }
 }

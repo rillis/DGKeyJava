@@ -65,6 +65,10 @@ public class Loading extends JFrame {
         loading.repaint();
     }
 
+    public static void setAlwaysTop(boolean value){
+        loading.setAlwaysOnTop(value);
+    }
+
     public static void init(){
         new Thread(() -> loading = new Loading()).start();
     }
