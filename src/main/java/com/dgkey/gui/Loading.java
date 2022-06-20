@@ -7,9 +7,8 @@ import java.awt.*;
 
 public class Loading extends JFrame {
     private static Loading loading;
-    private JPanel contentPane;
-    private JButton cancel;
-    private JLabel load;
+    private final JButton cancel;
+    private final JLabel load;
 
     public static boolean start = false;
 
@@ -25,7 +24,7 @@ public class Loading extends JFrame {
         setUndecorated(false);
         setSize(300, 140);
 
-        contentPane = new JPanel();
+        JPanel contentPane = new JPanel();
         contentPane.setBounds(0,0, getWidth(), getHeight());
         contentPane.setLayout(null);
         setContentPane(contentPane);
@@ -71,10 +70,6 @@ public class Loading extends JFrame {
 
     public static void init(){
         new Thread(() -> loading = new Loading()).start();
-    }
-
-    public static void open(){
-        loading.setVisible(true);
     }
 
     public static void close(){

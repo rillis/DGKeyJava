@@ -13,7 +13,6 @@ public class Principal {
     public static MainWindow mainWindow = null;
     public static Database database = null;
 
-
     public static void main(String[] args) throws Exception {
         debugLaF();
 
@@ -49,7 +48,6 @@ public class Principal {
         Loading.setColor(Color.BLACK);
         Loading.setCancelMessage("Abortar");
         BufferedImage mapImage = Screen.getMapImage();
-
 
         if(mapImage != null){
             Loading.close();

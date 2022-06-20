@@ -5,11 +5,7 @@ import com.dgkey.Principal;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 
 
 public class Screen {
@@ -18,9 +14,7 @@ public class Screen {
         int w1 = im1.getWidth(); int h1 = im1.getHeight();
         int w2 = im2.getWidth(); int h2 = im2.getHeight();
         assert(w2 <= w1 && h2 <= h1);
-        // will keep track of best position found
         int bestX = 0; int bestY = 0; double lowestDiff = Double.POSITIVE_INFINITY;
-        // brute-force search through whole image (slow...)
         for(int x = 0;x < w1-w2;x++){
             for(int y = 0;y < h1-h2;y++){
                 double comp = compareImages(im1.getSubimage(x,y,w2,h2),im2);
@@ -33,9 +27,9 @@ public class Screen {
                 }
             }
         }
-        // return best location
         return new int[]{bestX,bestY, (int) Math.round(lowestDiff*100)};
     }
+
     private static double compareImages(BufferedImage im1, BufferedImage im2){
         assert(im1.getHeight() == im2.getHeight() && im1.getWidth() == im2.getWidth());
         double variation = 0.0;

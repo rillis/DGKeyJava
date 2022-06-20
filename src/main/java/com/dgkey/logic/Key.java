@@ -24,7 +24,6 @@ public class Key {
                     tooltips[i][j] = d3[(i*8+j+1)-65];
                 }
 
-
                 try {
                     System.out.println(""+(i*8+j+1));
                     keys[i][j] = ImageIO.read(Key.class.getClassLoader().getResource("key ("+(i*8+j+1)+").png"));

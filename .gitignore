@@ -2,3 +2,4 @@ target/**
 src/main/resources/blocks/**
 .idea/**
 out/**
+/src/main/java/com/dgkey/db/Credential.java

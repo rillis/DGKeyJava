@@ -7,40 +7,14 @@ public class Database {
 
     public Database(String ip, String port, String db) throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        connection = DriverManager.getConnection("jdbc:mysql://"+ip+":"+port+"/"+db, "root", "");
+        connection = DriverManager.getConnection("jdbc:mysql://"+ip+":"+port+"/"+db, "root", Credential.pass);
     }
-
-    /**
-    private ResultSet runQuery(String stat) throws SQLException {
-        PreparedStatement stmt;
-
-        try{
-            stmt = connection.prepareStatement(stat);
-            return stmt.executeQuery();
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally {
-            if
-        }
-        return null;
-    }
-     **/
 
     private void run(String stat) throws SQLException {
         Statement stmt = connection.createStatement();
         stmt.execute(stat);
         stmt.close();
     }
-
-    /**
-    public ResultSet select(String table, String campos) throws SQLException {
-        return select(table, campos, "");
-    }
-
-    public ResultSet select(String table, String campos, String addon) throws SQLException {
-        return runQuery("SELECT "+campos+" FROM "+table+" "+addon);
-    }
-     */
 
     public void insert(String table, String[] fields, Object[] values) throws SQLException {
         StringBuilder val = new StringBuilder();
@@ -50,10 +24,6 @@ public class Database {
         }
         val.deleteCharAt(val.length()-1);
         run("INSERT INTO "+table+"("+String.join(", ", fields)+") VALUES ("+ val +")");
-    }
-
-    public void delete(String table, String condition) throws SQLException {
-        run("DELETE FROM "+table+" WHERE "+condition);
     }
 
     public void truncate(String table) throws SQLException {
